@@ -5,10 +5,10 @@ all: derp.kernel
 SOURCES_ASM := boot.asm
 
 PREFIX ?= /usr
-CC      = $(PREFIX)/bin/arm-linux-gnueabi-gcc
-AS      = $(PREFIX)/bin/arm-linux-gnueabi-as
-LD      = $(PREFIX)/bin/arm-linux-gnueabi-ld
-OBJCOPY = $(PREFIX)/bin/arm-linux-gnueabi-objcopy
+CC      = $(PREFIX)/bin/arm-none-eabi-gcc
+AS      = $(PREFIX)/bin/arm-none-eabi-as
+LD      = $(PREFIX)/bin/arm-none-eabi-ld
+OBJCOPY = $(PREFIX)/bin/arm-none-eabi-objcopy
 
 CFLAGS += --freestanding -msoft-float -fwrapv -fno-short-enums
 CFLAGS += -std=gnu99 -fomit-frame-pointer -c -Isrc -I. -Iinclude
