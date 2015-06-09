@@ -1,6 +1,5 @@
 task :default => :build
 
-
 task :build do
   cmds = []
   env = []
@@ -15,6 +14,6 @@ task :build do
 
   cmds = cmds.compact.join ' && '
 
-  sh 'rsync -trulip . mrada@ferrous-pi.local:/home/mrada/beagleos'
-  sh "ssh mrada@ferrous-pi.local '#{cmds}'"
+  sh 'rsync -trulip . pi:/home/mrada/beagleos'
+  sh "ssh pi '#{cmds}'"
 end
