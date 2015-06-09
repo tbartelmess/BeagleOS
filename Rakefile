@@ -14,6 +14,6 @@ task :build do
 
   cmds = cmds.compact.join ' && '
 
-  sh 'rsync -trulip . pi:/home/mrada/beagleos'
-  sh "ssh pi '#{cmds}'"
+  sh "rsync -trulip --exclude '.git/' . pi:/home/mrada/beagleos"
+  sh "ssh mrada@ferrous-pi.local '#{cmds}'"
 end
