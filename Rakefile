@@ -11,6 +11,7 @@ task :build do
   cmds << "touch Makefile"
   cmds << "echo ==> Building"
   cmds << "make"
+  cmds << "cp derp.kernel /srv/tftp/derp.kernel"
 
   cmds = cmds.compact.join ' && '
 
