@@ -29,5 +29,7 @@ derp.kernel: $(OBJS)
 	$(AS) $(ASFLAGS) $< -o $@
 
 .PHONY: clean
+
+clean:
 	-rm -f derp.kernel
 	-rm -f *.o
