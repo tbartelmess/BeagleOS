@@ -1,10 +1,21 @@
 /* rammap */
-MEMORY
-{
-    ram : ORIGIN = 0x402f0400, LENGTH = 0x10000
-}
- 
+ENTRY(_main)
+
 SECTIONS
 {
-    .text : { *(.text*) } > ram
+    /* Starts at LOADER_ADDR. */
+    . = 0x402f0400;
+    _main = .;
+
+    . = 0x80000000;
+    _text_start = .;
+    .text :
+    {
+        KEEP(*(.text.boot))
+        *(.text)
+    }
+    . = ALIGN(4096); /* align to page size */
+    _text_end = .;
+
+
 }
