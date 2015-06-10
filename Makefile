@@ -41,3 +41,4 @@ derp.kernel: $(OBJS)
 clean:
 	-rm -f derp.kernel
 	-rm -f *.o
+	-rm -f src/*.o
