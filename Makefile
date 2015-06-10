@@ -10,6 +10,8 @@ AS      = $(PREFIX)/bin/arm-none-eabi-as
 LD      = $(PREFIX)/bin/arm-none-eabi-ld
 OBJCOPY = $(PREFIX)/bin/arm-none-eabi-objcopy
 
+CFLAGS += -march=armv7-a -mtune=cortex-a8
+
 CFLAGS += --freestanding -msoft-float -fwrapv -fno-short-enums
 CFLAGS += -std=gnu99 -fomit-frame-pointer -c -Isrc -I. -Iinclude
 CFLAGS += -Wall -Wextra -Wshadow -Wcast-align -Wredundant-decls
