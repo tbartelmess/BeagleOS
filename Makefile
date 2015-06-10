@@ -3,6 +3,7 @@ all: derp.kernel
 # Sources
 
 SOURCES_ASM := boot.asm
+SOURCES_C   := $(wildcard src/*.c)
 
 PREFIX ?= /usr
 CC      = $(PREFIX)/bin/arm-none-eabi-gcc
@@ -27,7 +28,11 @@ OBJS := $(patsubst %.asm,%.o,$(SOURCES_ASM))
 derp.kernel: $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $(OBJS)
 
-%.o: %.asm
+%.o: %.c Makefile
+	$(CC) -S $(CFLAGS) $< -o $(<:.c=.s)
+	$(AS) $(ASFLAGS) $(<:.c=.s) -o $@
+
+%.o: %.asm Makefile
 	$(AS) $(ASFLAGS) $< -o $@
 
 .PHONY: clean
