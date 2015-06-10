@@ -19,11 +19,12 @@ CFLAGS += -Wall -Wextra -Wshadow -Wcast-align -Wredundant-decls
 CFLAGS += -Wno-div-by-zero -Wno-multichar -Wpadded
 CFLAGS += -Wswitch-enum -Wdisabled-optimization
 
-LDFLAGS += -T linker.ld
+LDFLAGS += -init main -T linker.ld -N -Map kernel.map
 
 # object files
 
-OBJS := $(patsubst %.asm,%.o,$(SOURCES_ASM))
+#OBJS := $(patsubst %.asm,%.o,$(SOURCES_ASM))
+OBJS += $(patsubst %.c,%.o,$(SOURCES_C))
 
 derp.kernel: $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $(OBJS)
