@@ -29,11 +29,14 @@ int main(__unused int argc, __unused char** argv) {
     /* asm volatile ("mov %0, sp\n\t" */
     /*     	  : "=r" (sp)); */
 
-    char msg[128];
+    char msg[1024];
     char* ptr = msg;
     ptr = vt_clear_screen(ptr);
     ptr = vt_goto_home(ptr);
     ptr = sprintf(ptr, COLOUR(RED) "Welcome to BeagleOS (Build %d)\n\n\n" COLOUR_RESET, __BUILD_NUM__);
+    ptr = sprintf(ptr,
+                  "\r\n\r\n           O_      __)(\r\n         ,\'  `.   (_\".`.\r\n        :      :    /|`\r\n        |      |   ((|_  ,-.\r\n        ; -   /:  ,\'  `:(( -\\\r\n       /    -\'  `: ____ \\\\\\-:\r\n      _\\__   ____|___  \\____|_\r\n     ;    | |        \'-`      :\r\n    :_____|:|__________________:\r\n    ;     |:|                  :\r\n   :      |:|                   :\r\n   ;_______`\'___________________:\r\n  :                              :\r\n  |______________________________|\r\n   `---.--------------------.---\'\r\n       |____________________|\r\n       |                    |\r\n       |____________________|\r\n       |                    |\r\n     _\\|_\\|_\\/(__\\__)\\__\\//_|(_\r\n\n\n");
+
     *ptr = '\0';
     kprintf(msg);
 
