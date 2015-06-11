@@ -19,7 +19,10 @@ kernel. TFTP has been the easiest for us so far.
 [ARM Assembly Tutorial](http://www.davespace.co.uk/arm/introduction-to-arm/)
 
 A copy of the ARM architecture reference manual is located in the resources directory of
-this repository.
+this repository. You will also want a quick reference for the calling convention that the
+compiler expects when you implement functions in assembly:
+
+[ARM Embedded API Calling Conventions](http://stackoverflow.com/questions/261419/arm-to-c-calling-convention-registers-to-save)
 
 [BeagleBone Black Tech Reference](http://www.ti.com/lit/ug/spruh73l/spruh73l.pdf)
 
