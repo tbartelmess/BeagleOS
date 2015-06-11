@@ -1,5 +1,9 @@
+#ifndef __STD_H__
+#define __STD_H__
+
 #define NULL 0
 
+typedef unsigned char byte;
 typedef unsigned char uint8_t;
 typedef char int8_t;
 typedef unsigned short uint16_t;
@@ -17,3 +21,11 @@ typedef char bool;
 
 #define likely(x) __builtin_expect(!!(x), 1)
 #define unlikely(x) __builtin_expect(!!(x), 0)
+
+#define va_start(v,l) __builtin_va_start(v,l)
+#define va_arg(v,l)   __builtin_va_arg(v,l)
+#define va_end(v)     __builtin_va_end(v)
+#define va_copy(d,s)  __builtin_va_copy(d,s)
+typedef __builtin_va_list va_list;
+
+#endif
