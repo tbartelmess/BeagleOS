@@ -1,5 +1,5 @@
 #include "std.h"
-//#include "stdio.h"
+#include "vt100.h"
 
 /* static void* exit_point = NULL; */
 /* static void* exit_sp    = NULL; */
@@ -29,11 +29,13 @@ int main(__unused int argc, __unused char** argv) {
     /* asm volatile ("mov %0, sp\n\t" */
     /*     	  : "=r" (sp)); */
 
-    kprintf("\n\nHello, Mark Rada!\n\n");
+    char msg[128];
+    char* ptr = msg;
+    ptr = vt_clear_screen(ptr);
+    ptr = vt_goto_home(ptr);
+    ptr = sprintf(ptr, COLOUR(RED) "Welcome to BeagleOS (Build %d)\n\n\n" COLOUR_RESET, __BUILD_NUM__);
+    *ptr = '\0';
+    kprintf(msg);
 
-    int derp = 0;
-    asm volatile ("mov  %0, pc \n\t"
-                  : "=r" (derp));
-
-    return derp;
+    return 42;
 }

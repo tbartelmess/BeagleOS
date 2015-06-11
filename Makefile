@@ -20,6 +20,7 @@ CFLAGS  += -std=gnu11 -c -Isrc -I.
 CFLAGS  += -Wall -Wextra -Wshadow -Wcast-align -Wredundant-decls
 CFLAGS  += -Wno-div-by-zero -Wno-multichar -Wpadded
 CFLAGS  += -Wswitch-enum -Wdisabled-optimization
+CFLAGS += -D __BUILD_NUM__=$(shell cat VERSION)
 
 LDFLAGS += -T linker.ld -Map kernel.map
 
