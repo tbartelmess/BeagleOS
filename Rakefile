@@ -1,8 +1,18 @@
 task :default => :build
 
-task :build do
+task :increment_version do
+  version = if File.exist?('VERSION')
+              File.read('VERSION').to_i + 1
+            else
+              0
+            end
+  File.open('VERSION', 'w') do |fd|
+    fd.puts version
+  end
+end
+
+task build: [:increment_version] do
   cmds = []
-  env = []
 
   cmds << "cd beagleos"
   cmds << "echo Cleaning"
