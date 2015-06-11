@@ -1,21 +1,32 @@
-/* rammap */
-ENTRY(_main)
+ENTRY(main)
 
 SECTIONS
 {
     /* Starts at LOADER_ADDR. */
-    . = 0x402f0400;
-    _main = .;
+    . = 0x80200000;
 
-    . = 0x80000000;
-    _text_start = .;
     .text :
     {
-        KEEP(*(.text.boot))
-        *(.text)
+        *(.text.bootme*)
+        *(.text*)
     }
+
     . = ALIGN(4096); /* align to page size */
-    _text_end = .;
+    .data : /* Initialized data. */
+    {
+      *(.data*)
+    }
 
+    . = ALIGN(4096); /* align to page size */
+    .bss : /* Uninitialized data. */
+    {
+      *(.bss*)
+      *(.sbss*)
+    }
 
+    . = ALIGN(4096); /* align to page size */
+    .rodata :
+    {
+      *(.rodata*)
+    }
 }
