@@ -11,7 +11,7 @@ task :build do
   cmds << "echo Building"
   cmds << "make"
   cmds << "echo Copying to TFTP Server"
-  cmds << "cp -v derp.kernel /srv/tftp/derp.kernel"
+  cmds << "cp -v beagleOS.bin /srv/tftp/beagleOS.bin"
 
   cmds = cmds.compact.join ' && '
 
