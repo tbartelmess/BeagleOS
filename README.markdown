@@ -30,5 +30,7 @@ There is a copy of the software reference manual for the BeagleBone in the resou
 directory of this repository.
 
 [Linker Script Tutorial](http://www.delorie.com/gnu/docs/binutils/ld_6.html)
+
 [Das Uboot Bootloader](http://www.denx.de/wiki/U-Boot)
+
 [BeagleBone Black Bare Metal Setup](http://www.cs.sfu.ca/CourseCentral/433/bfraser/other/BareMetalGuide.pdf)
