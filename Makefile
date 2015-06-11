@@ -14,7 +14,7 @@ OBJCOPY = $(PREFIX)/bin/arm-none-eabi-objcopy
 CFLAGS += -march=armv7-a -mtune=cortex-a8 -Og
 
 CFLAGS += --freestanding -msoft-float -fwrapv -fno-short-enums
-CFLAGS += -std=gnu99 -fomit-frame-pointer -c -Isrc -I. -Iinclude
+CFLAGS += -std=gnu11 -c -Isrc -I.
 CFLAGS += -Wall -Wextra -Wshadow -Wcast-align -Wredundant-decls
 CFLAGS += -Wno-div-by-zero -Wno-multichar -Wpadded
 CFLAGS += -Wswitch-enum -Wdisabled-optimization
