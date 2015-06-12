@@ -1,5 +1,17 @@
 #include "stdio.h"
 
+void kprintf(const char* str, const size_t length) {
+    volatile void* UART0 = (void*)0x44E09000;
+    volatile uint16_t* UART_LSR = (UART0 + 0x14);
+    volatile uint16_t* UART_THR = (UART0 + 0x0);;
+
+    for (size_t i = 0; i < length; ++i, ++str) {
+        while ((*UART_LSR & 0x20) == 0) continue;
+        const uint16_t car = *str;
+        *UART_THR = car;
+    }
+}
+
 static inline char*
 _sprintf_uint(char* buffer, const uint32_t num)
 {

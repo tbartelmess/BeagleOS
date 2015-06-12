@@ -1,21 +1,13 @@
 #include "std.h"
 #include "vt100.h"
+#include "beagle.h"
+
+#ifndef __BUILD_NUM__
+#define __BUILD_NUM__ 0
+#endif
 
 /* static void* exit_point = NULL; */
 /* static void* exit_sp    = NULL; */
-
-void kprintf(const char* str) {
-    volatile void* UART0 = (void*)0x44E09000;
-    volatile uint16_t* UART_LSR = (UART0 + 0x14);
-    volatile uint16_t* UART_THR = (UART0 + 0x0);;
-
-    while (*str) {
-        while ((*UART_LSR & 0x20) == 0);
-        const uint16_t car = *str;
-        *UART_THR = car;
-        str++;
-    }
-}
 
 int main(__unused int argc, __unused char** argv) __attribute__ ((section(".text.bootme")));
 int main(__unused int argc, __unused char** argv) {
@@ -29,16 +21,23 @@ int main(__unused int argc, __unused char** argv) {
     /* asm volatile ("mov %0, sp\n\t" */
     /*     	  : "=r" (sp)); */
 
+    vt_init();
+
+    // TODO: move this init code elsewhere
+    ksyslog(LOG_INFO,
+            "Welcome to " COLOUR(RED) "BeagleOS" COLOUR_RESET " "
+            "(Build " COLOUR(GREEN) "%d" COLOUR_RESET ")",
+            __BUILD_NUM__);
+
     char msg[1024];
     char* ptr = msg;
-    ptr = vt_clear_screen(ptr);
     ptr = vt_goto_home(ptr);
-    ptr = sprintf(ptr, COLOUR(RED) "Welcome to BeagleOS (Build %d)\n\n\n" COLOUR_RESET, __BUILD_NUM__);
-    ptr = sprintf(ptr,
-                  "\r\n\r\n           O_      __)(\r\n         ,\'  `.   (_\".`.\r\n        :      :    /|`\r\n        |      |   ((|_  ,-.\r\n        ; -   /:  ,\'  `:(( -\\\r\n       /    -\'  `: ____ \\\\\\-:\r\n      _\\__   ____|___  \\____|_\r\n     ;    | |        \'-`      :\r\n    :_____|:|__________________:\r\n    ;     |:|                  :\r\n   :      |:|                   :\r\n   ;_______`\'___________________:\r\n  :                              :\r\n  |______________________________|\r\n   `---.--------------------.---\'\r\n       |____________________|\r\n       |                    |\r\n       |____________________|\r\n       |                    |\r\n     _\\|_\\|_\\/(__\\__)\\__\\//_|(_\r\n\n\n");
+    ptr = sprintf(ptr, ascii_beagle);
+    kprintf(msg, ptr - msg);
 
-    *ptr = '\0';
-    kprintf(msg);
+    ksyslog(LOG_INFO, "What's up, yo?");
+
+    vt_deinit();
 
     return 42;
 }

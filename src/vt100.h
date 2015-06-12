@@ -70,16 +70,22 @@ char* vt_scroll_down(char* buffer);
 
 #define vt_colour_reset(ptr) sprintf_string(ptr, COLOUR_RESET)
 
+// The row where logging begins
+#define LOG_HOME 24
 
-/**
- * The row where logging begins.
- */
-#define LOG_HOME 10
-
-/**
- * The row where logging ends.
- */
+// The row where logging ends
 #define LOG_END  99
+
+enum {
+    LOG_EMERG     = 0,
+    LOG_ALERT     = 1,
+    LOG_CRIT      = 2,
+    LOG_ERR       = 3,
+    LOG_WARNING   = 4,
+    LOG_NOTICE    = 5,
+    LOG_INFO      = 6,
+    LOG_DEBUG     = 7
+};
 
 /**
  * To begin arbitrary logging (table, multiline things, etc.), use
@@ -90,7 +96,9 @@ char* vt_scroll_down(char* buffer);
 char* log_start(char* buffer);
 char* clog_start(const int time, char* buffer);
 char* log_end(char* buffer);
-void  syslog(const int priority, const char* fmt, ...);
-void  ksyslog(const int priority, const char* fmt, ...);
+void  syslog(const int priority, const char* fmt, ...)
+    __attribute__ ((format(printf, 2, 3)));
+void  ksyslog(const int priority, const char* fmt, ...)
+    __attribute__ ((format(printf, 2, 3)));
 
 #endif

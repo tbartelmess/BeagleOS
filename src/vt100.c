@@ -1,5 +1,29 @@
 #include "vt100.h"
 
+void vt_init() {
+    char buffer[32];
+    char* ptr = buffer;
+
+    ptr = vt_clear_screen(ptr);
+    ptr = vt_hide_cursor(ptr);
+
+    ptr = vt_set_scroll_region(ptr, LOG_HOME, 80);
+    ptr = vt_goto(ptr, LOG_HOME, 1);
+    ptr = vt_save_cursor(ptr);
+
+    kprintf(buffer, ptr - buffer);
+}
+
+void vt_deinit() {
+    char buffer[64];
+    char* ptr = buffer;
+
+    ptr = vt_reset_scroll_region(ptr);
+    ptr = vt_unhide_cursor(ptr);
+    ptr = sprintf_string(ptr, "\nSHUTTING DOWN");
+    kprintf(buffer, ptr - buffer);
+}
+
 char* vt_clear_screen(char* buffer) {
     return sprintf_string(buffer, ESC_CODE "2J");
 }
@@ -82,7 +106,7 @@ char* log_start(char* buffer) {
 }
 
 char* log_end(char* buffer) {
-    buffer = sprintf_string(buffer, "\n");
+    buffer = sprintf_string(buffer, "\r\n");
     return vt_save_cursor(buffer);
 }
 
@@ -98,5 +122,20 @@ void syslog(__unused const int priority, const char* fmt, ...) {
     ptr = log_end(ptr);
 
     //    Puts(buffer, ptr - buffer);
+    va_end(args);
+}
+
+void ksyslog(__unused const int priority, const char* fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+
+    char buffer[256];
+    char* ptr = buffer;
+
+    ptr = log_start(ptr);
+    ptr = sprintf_va(ptr, fmt, args);
+    ptr = log_end(ptr);
+
+    kprintf(buffer, ptr - buffer);
     va_end(args);
 }

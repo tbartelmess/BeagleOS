@@ -22,8 +22,17 @@
 	Puts(print_buffer, str_end - print_buffer);			\
     }
 
-char* sprintf(char* buffer, const char* fmt, ...);
+char* sprintf(char* buffer, const char* fmt, ...)
+    __attribute__((format(printf, 2, 3)));
 
+/**
+ * TODO: need to separate kernel stuff from userland stuff eventually
+ *
+ * This will print the string over the serial line using a busy-wait
+ * implementation, so it should only be used for debugging and interrupt
+ * driven I/O is not available.
+ */
+void kprintf(const char* str, const size_t len);
 
 /**
  * Like sprintf(), except that it directly takes a va_list instead of
@@ -46,12 +55,11 @@ char* sprintf_int(char* buffer, const int32_t num);
 char* sprintf_uint(char* buffer, const uint32_t num);
 char* sprintf_hex(char* buffer, const uint32_t num);
 char* sprintf_ptr(char* buffer, const void* const ptr);
+char* sprintf_string(char* buffer, const char* str);
 
 static inline char* sprintf_char(char* buffer, const char c) {
     *(buffer++) = c;
     return buffer;
 }
-
-char* sprintf_string(char* buffer, const char* str);
 
 #endif
