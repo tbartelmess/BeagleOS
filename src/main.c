@@ -1,6 +1,7 @@
 #include "std.h"
 #include "vt100.h"
 #include "beagle.h"
+#include "am335x.h"
 
 #ifndef __BUILD_NUM__
 #define __BUILD_NUM__ 0
@@ -8,6 +9,12 @@
 
 /* static void* exit_point = NULL; */
 /* static void* exit_sp    = NULL; */
+
+char kgetc() {
+    while ((*UART_LSR & UART_LSR_RXFIFOE) == 0);
+    const uint16_t car = *UART_RHR;
+    return car;
+}
 
 int main(__unused int argc, __unused char** argv) __attribute__ ((section(".text.bootme")));
 int main(__unused int argc, __unused char** argv) {
@@ -20,6 +27,19 @@ int main(__unused int argc, __unused char** argv) {
     /* void* volatile sp; */
     /* asm volatile ("mov %0, sp\n\t" */
     /*     	  : "=r" (sp)); */
+
+
+    *UART_LCR = 0xC3;
+
+    *UART_IER = 0;
+    *UART_DLL = 0;
+    *UART_DLH = 0;
+
+    *UART_FCR = 0;
+
+    *UART_DLL = 26; // baud_clock_hz / (16 * serial_tty_speed_bits)
+    *UART_LCR = 3;
+
 
     vt_init();
 
@@ -35,7 +55,11 @@ int main(__unused int argc, __unused char** argv) {
     ptr = sprintf(ptr, ascii_beagle);
     kprintf(msg, ptr - msg);
 
-    ksyslog(LOG_INFO, "What's up, yo?");
+    while (1) {
+       const char input = kgetc();
+       if (input == 'q') break;
+       ksyslog(LOG_INFO, "%c", input);
+    }
 
     vt_deinit();
 
