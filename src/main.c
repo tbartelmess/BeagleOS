@@ -1,5 +1,6 @@
 #include "std.h"
 #include "vt100.h"
+#include "clock.h"
 #include "uart.h"
 #include "beagle.h"
 
@@ -22,7 +23,7 @@ int main(__unused int argc, __unused char** argv) {
     /* asm volatile ("mov %0, sp\n\t" */
     /*     	  : "=r" (sp)); */
 
-
+    clock_init();
     uart_init();
     vt_init();
 
@@ -46,6 +47,7 @@ int main(__unused int argc, __unused char** argv) {
 
     vt_deinit();
     uart_deinit();
+    clock_deinit();
 
     return 42;
 }

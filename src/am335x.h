@@ -24,4 +24,20 @@ enum {
     UART_SSR_TXFIFOFULL = 0x1
 } UART_SSR_BITS;
 
+
+#define DTIMER (volatile uint32_t*)0x44E05000
+#define DTIMER_TCLR (DTIMER + 14) // control
+
+enum {
+    DTIMER_TCLR_ST    = 1,
+    DTIMER_TCLR_AR    = 2,
+    DTIMER_TCLR_PTV1  = 4,
+    DTIMER_TCLR_PTV2  = 8,
+    DTIMER_TCLR_PTV3  = 16,
+    DTIMER_TCLR_PRE   = 32
+} DTIMER_TCLR_BITS;
+
+#define DTIMER_TCRR (DTIMER + 15) // value
+#define DTIMER_TLDR (DTIMER + 16) // load value
+
 #endif

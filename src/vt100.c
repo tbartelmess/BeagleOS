@@ -1,4 +1,5 @@
 #include "vt100.h"
+#include "clock.h"
 
 void vt_init() {
     char buffer[32];
@@ -99,30 +100,40 @@ char* vt_restore_cursor(char* buffer) {
     return sprintf_string(buffer, ESC "8");
 }
 
-char* log_start(char* buffer) {
+static inline
+char* log_priority(char* buffer, const int priority) {
+    switch (priority) {
+    case LOG_EMERG:
+        return sprintf_string(buffer, "[" COLOUR(BG_RED) COLOUR(BLACK) "EMERGENCY:" COLOUR_RESET);
+    case LOG_ALERT:
+        return sprintf_string(buffer, "[" COLOUR(BG_RED) COLOUR(WHITE) "ALERT:" COLOUR_RESET);
+    case LOG_CRIT:
+        return sprintf_string(buffer, "[" COLOUR(BG_LIGHT_RED) COLOUR(WHITE) "CRITICAL:" COLOUR_RESET);
+    case LOG_ERR:
+        return sprintf_string(buffer, "[" COLOUR(RED) "ERROR:" COLOUR_RESET);
+    case LOG_WARNING:
+        return sprintf_string(buffer, "[" COLOUR(YELLOW) "WARNING:" COLOUR_RESET);
+    case LOG_NOTICE:
+        return sprintf_string(buffer, "[" COLOUR(GREEN) "NOTICE:" COLOUR_RESET);
+    case LOG_INFO:
+        return sprintf_string(buffer, "[" COLOUR(BLUE) "INFO:" COLOUR_RESET);
+    case LOG_DEBUG:
+        return sprintf_string(buffer, "[" COLOUR(LIGHT_BLUE) "DEBUG:" COLOUR_RESET);
+    }
+
+    return buffer;
+}
+
+char* log_start(char* buffer, const int priority) {
     buffer = vt_restore_cursor(buffer);
-    buffer = sprintf_uint(buffer, 1); //(uint32_t)Time());
-    return sprintf_string(buffer, ": ");
+    buffer = log_priority(buffer, priority);
+    buffer = sprintf_uint(buffer, clock());
+    return sprintf_string(buffer, "]: ");
 }
 
 char* log_end(char* buffer) {
     buffer = sprintf_string(buffer, "\r\n");
     return vt_save_cursor(buffer);
-}
-
-void syslog(__unused const int priority, const char* fmt, ...) {
-    va_list args;
-    va_start(args, fmt);
-
-    char buffer[256];
-    char* ptr = buffer;
-
-    ptr = log_start(ptr);
-    ptr = sprintf_va(ptr, fmt, args);
-    ptr = log_end(ptr);
-
-    //    Puts(buffer, ptr - buffer);
-    va_end(args);
 }
 
 void ksyslog(__unused const int priority, const char* fmt, ...) {
@@ -132,7 +143,7 @@ void ksyslog(__unused const int priority, const char* fmt, ...) {
     char buffer[256];
     char* ptr = buffer;
 
-    ptr = log_start(ptr);
+    ptr = log_start(ptr, priority);
     ptr = sprintf_va(ptr, fmt, args);
     ptr = log_end(ptr);
 

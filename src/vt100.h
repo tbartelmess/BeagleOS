@@ -93,11 +93,8 @@ enum {
  * logging. Otherwise, use vt_log() with a format string for generic
  * logging as it is a wrapper around vt_log_start() and vt_log_end().
  */
-char* log_start(char* buffer);
-char* clog_start(const int time, char* buffer);
+char* log_start(char* buffer, const int priority);
 char* log_end(char* buffer);
-void  syslog(const int priority, const char* fmt, ...)
-    __attribute__ ((format(printf, 2, 3)));
 void  ksyslog(const int priority, const char* fmt, ...)
     __attribute__ ((format(printf, 2, 3)));
 
