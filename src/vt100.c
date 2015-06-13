@@ -8,7 +8,7 @@ void vt_init() {
     ptr = vt_clear_screen(ptr);
     ptr = vt_hide_cursor(ptr);
 
-    ptr = vt_set_scroll_region(ptr, LOG_HOME, 80);
+    ptr = vt_set_scroll_region(ptr, LOG_HOME, LOG_END);
     ptr = vt_goto(ptr, LOG_HOME, 1);
     ptr = vt_save_cursor(ptr);
 

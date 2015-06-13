@@ -74,7 +74,7 @@ char* vt_scroll_down(char* buffer);
 #define LOG_HOME 24
 
 // The row where logging ends
-#define LOG_END  99
+#define LOG_END  60
 
 enum {
     LOG_EMERG     = 0,
