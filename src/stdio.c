@@ -9,6 +9,12 @@ void kprintf(const char* str, const size_t length) {
     }
 }
 
+char kgetc() {
+    while ((*UART_LSR & UART_LSR_RXFIFOE) == 0);
+    const uint16_t car = *UART_RHR;
+    return car;
+}
+
 static inline char*
 _sprintf_uint(char* buffer, const uint32_t num)
 {

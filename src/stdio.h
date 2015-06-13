@@ -48,6 +48,8 @@ void kprintf(const char* str, const size_t len);
 
 char* sprintf_va(char* buffer, const char* fmt, va_list args);
 
+// TODO: documentation
+char kgetc();
 
 // general number printing, reasonably fast, but special case
 // code will still be faster

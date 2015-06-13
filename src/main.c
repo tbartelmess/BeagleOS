@@ -2,7 +2,6 @@
 #include "vt100.h"
 #include "uart.h"
 #include "beagle.h"
-#include "am335x.h"
 
 #ifndef __BUILD_NUM__
 #define __BUILD_NUM__ 0
@@ -10,12 +9,6 @@
 
 /* static void* exit_point = NULL; */
 /* static void* exit_sp    = NULL; */
-
-char kgetc() {
-    while ((*UART_LSR & UART_LSR_RXFIFOE) == 0);
-    const uint16_t car = *UART_RHR;
-    return car;
-}
 
 int main(__unused int argc, __unused char** argv) __attribute__ ((section(".text.bootme")));
 int main(__unused int argc, __unused char** argv) {
