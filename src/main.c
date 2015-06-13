@@ -1,5 +1,6 @@
 #include "std.h"
 #include "vt100.h"
+#include "uart.h"
 #include "beagle.h"
 #include "am335x.h"
 
@@ -29,18 +30,7 @@ int main(__unused int argc, __unused char** argv) {
     /*     	  : "=r" (sp)); */
 
 
-    *UART_LCR = 0xC3;
-
-    *UART_IER = 0;
-    *UART_DLL = 0;
-    *UART_DLH = 0;
-
-    *UART_FCR = 0;
-
-    *UART_DLL = 26; // baud_clock_hz / (16 * serial_tty_speed_bits)
-    *UART_LCR = 3;
-
-
+    uart_init();
     vt_init();
 
     // TODO: move this init code elsewhere
@@ -62,6 +52,7 @@ int main(__unused int argc, __unused char** argv) {
     }
 
     vt_deinit();
+    uart_deinit();
 
     return 42;
 }
