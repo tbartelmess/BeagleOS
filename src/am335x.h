@@ -3,6 +3,8 @@
 
 #include "std.h"
 
+// Serial I/O (UART0)
+
 #define UART0 (volatile uint32_t*)0x44E09000
 #define UART_DLL UART0
 #define UART_THR UART0
@@ -25,6 +27,8 @@ enum {
 } UART_SSR_BITS;
 
 
+// Main Clock (DTIMER1)
+
 #define DTIMER (volatile uint32_t*)0x44E05000
 #define DTIMER_TCLR (DTIMER + 14) // control
 
@@ -39,5 +43,18 @@ enum {
 
 #define DTIMER_TCRR (DTIMER + 15) // value
 #define DTIMER_TLDR (DTIMER + 16) // load value
+
+
+// Watch Dog
+
+#define WDT (volatile uint32_t*)0x44E35000
+#define WDT_WTGR (WDT + 12)
+#define WDT_WWPS (WDT + 13)
+
+enum {
+    WDT_WWPS_W_PEND_WSPR = 0x10
+} WDT_WWPS_BITS;
+
+#define WDT_WSPR (WDT + 18)
 
 #endif
