@@ -104,21 +104,21 @@ static inline
 char* log_priority(char* buffer, const int priority) {
     switch (priority) {
     case LOG_EMERG:
-        return sprintf_string(buffer, "[" COLOUR(BG_RED) COLOUR(BLACK) "EMERGENCY:" COLOUR_RESET);
+        return sprintf_string(buffer, "[" COLOUR(BG_RED) COLOUR(BLACK) "EMERGENCY" COLOUR_RESET ":");
     case LOG_ALERT:
-        return sprintf_string(buffer, "[" COLOUR(BG_RED) COLOUR(WHITE) "ALERT:" COLOUR_RESET);
+        return sprintf_string(buffer, "[" COLOUR(BG_RED) COLOUR(WHITE) "ALERT" COLOUR_RESET ":");
     case LOG_CRIT:
-        return sprintf_string(buffer, "[" COLOUR(BG_LIGHT_RED) COLOUR(WHITE) "CRITICAL:" COLOUR_RESET);
+        return sprintf_string(buffer, "[" COLOUR(BG_LIGHT_RED) COLOUR(WHITE) "CRITICAL" COLOUR_RESET ":");
     case LOG_ERR:
-        return sprintf_string(buffer, "[" COLOUR(RED) "ERROR:" COLOUR_RESET);
+        return sprintf_string(buffer, "[" COLOUR(RED) "ERROR" COLOUR_RESET ":");
     case LOG_WARNING:
-        return sprintf_string(buffer, "[" COLOUR(YELLOW) "WARNING:" COLOUR_RESET);
+        return sprintf_string(buffer, "[" COLOUR(YELLOW) "WARNING" COLOUR_RESET ":");
     case LOG_NOTICE:
-        return sprintf_string(buffer, "[" COLOUR(GREEN) "NOTICE:" COLOUR_RESET);
+        return sprintf_string(buffer, "[" COLOUR(GREEN) "NOTICE" COLOUR_RESET ":");
     case LOG_INFO:
-        return sprintf_string(buffer, "[" COLOUR(BLUE) "INFO:" COLOUR_RESET);
+        return sprintf_string(buffer, "[" COLOUR(BLUE) "INFO" COLOUR_RESET ":");
     case LOG_DEBUG:
-        return sprintf_string(buffer, "[" COLOUR(LIGHT_BLUE) "DEBUG:" COLOUR_RESET);
+        return sprintf_string(buffer, "[" COLOUR(LIGHT_BLUE) "DEBUG" COLOUR_RESET ":");
     }
 
     return buffer;
