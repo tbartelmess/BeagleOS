@@ -3,6 +3,7 @@
 #include "clock.h"
 #include "uart.h"
 #include "beagle.h"
+#include "am335x.h"
 
 #ifndef __BUILD_NUM__
 #define __BUILD_NUM__ 0

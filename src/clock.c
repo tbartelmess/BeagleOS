@@ -1,5 +1,5 @@
 #include "clock.h"
-#include "am3353x.h"
+#include "am335x.h"
 
 void
 clock_init() {

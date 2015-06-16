@@ -1,5 +1,5 @@
 #include "uart.h"
-#include "am3353x.h"
+#include "am335x.h"
 
 void
 uart_init() {
