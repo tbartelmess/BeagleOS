@@ -14,8 +14,9 @@ clock_init() {
     *DTIMER_TLDR = 544967295; // start at 1 million ticks
     *DTIMER_TCRR = 544967295; // reset to 1 million ticks
 
-    *DTIMER_TCLR =
-        DTIMER_TCLR_ST | DTIMER_TCLR_AR | DTIMER_TCLR_PRE | DTIMER_TCLR_PTV1;
+    for (volatile size_t i = 0; i < 2; ++i)
+      *DTIMER_TCLR =
+	DTIMER_TCLR_ST | DTIMER_TCLR_AR | DTIMER_TCLR_PRE | DTIMER_TCLR_PTV1;
 }
 
 void
