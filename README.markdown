@@ -24,7 +24,7 @@ compiler expects when you implement functions in assembly:
 
 [ARM Embedded API Calling Conventions](http://stackoverflow.com/questions/261419/arm-to-c-calling-convention-registers-to-save)
 
-[TI AM335x Reference](http://www.ti.com/lit/ug/spruh73l/spruh73l.pdf) (BeagleBone chipset)
+[TI AM335x Reference](http://www.ti.com/lit/ug/spruh73o/spruh73o.pdf) (BeagleBone chipset)
 
 There is a copy of the software reference manual for the BeagleBone in the resources
 directory of this repository.
