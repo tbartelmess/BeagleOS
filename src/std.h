@@ -17,6 +17,7 @@ typedef char bool;
 #define false 0
 
 #define __unused __attribute__ ((unused))
+#define __used __attribute__ ((used))
 
 #define likely(x) __builtin_expect(!!(x), 1)
 #define unlikely(x) __builtin_expect(!!(x), 0)

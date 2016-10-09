@@ -43,7 +43,7 @@ char* sprintf_hex(char* buffer, const uint32_t num);
 char* sprintf_ptr(char* buffer, const void* const ptr);
 char* sprintf_string(char* buffer, const char* str);
 
-static inline char* sprintf_char(char* buffer, const char c) {
+static inline __unused char* sprintf_char(char* buffer, const char c) {
     *buffer = c;
     return ++buffer;
 }
