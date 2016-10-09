@@ -40,18 +40,10 @@ int main(__unused int argc, __unused char** argv) {
     ptr = sprintf(ptr, ascii_beagle);
     kprintf(msg, ptr - msg);
 
-    // Tell the watch dog to fuck off
-
-    *WDT_WSPR = 0xAAAAAAAA;
-    while ((*WDT_WWPS & WDT_WWPS_W_PEND_WSPR) == 1) continue;
-    *WDT_WSPR = 0x55555555;
-    while ((*WDT_WWPS & WDT_WWPS_W_PEND_WSPR) == 1) continue;
-
-    while (1) {
+    FOREVER {
        const char input = kgetc();
        if (input == 'q') break;
        ksyslog(LOG_INFO, "%c", input);
-       ksyslog(LOG_WARNING, "%x %x", *WDT_WSPR, *WDT_WWPS);
     }
 
     vt_deinit();

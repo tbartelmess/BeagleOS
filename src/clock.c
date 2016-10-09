@@ -3,7 +3,7 @@
 
 void
 clock_init() {
-    *DTIMER_TCLR = 0;
+    HWREG(DMTIMER_TCLR) = 0;
 
     // clock is uint32_t value; at 160 nanoseconds between ticks,
     // so we get 3,750,000,000 ticks in 10 minutes (which is my
@@ -11,12 +11,14 @@ clock_init() {
     // the overflow value, but you can set the start value, so
     // we want to set the start value to be
     // UINT32_MAX - 3,750,000,000
-    *DTIMER_TLDR = 544967295; // start at 1 million ticks
-    *DTIMER_TCRR = 544967295; // reset to 1 million ticks
+    HWREG(DMTIMER_TLDR) = 544967295; // start at 1 million ticks
+    HWREG(DMTIMER_TCRR) = 544967295; // reset to 1 million ticks
 
     for (volatile size_t i = 0; i < 2; ++i)
-      *DTIMER_TCLR =
-	DTIMER_TCLR_ST | DTIMER_TCLR_AR | DTIMER_TCLR_PRE | DTIMER_TCLR_PTV1;
+        HWREG(DMTIMER_TCLR) = DMTIMER_TCLR_ST  |
+	                      DMTIMER_TCLR_AR  |
+	                      DMTIMER_TCLR_PRE |
+	                      DMTIMER_TCLR_PTV1;
 }
 
 void
@@ -26,5 +28,5 @@ clock_deinit() {
 
 uint32_t
 clock() {
-    return *DTIMER_TCRR;
+    return HWREG(DMTIMER_TCRR);
 }

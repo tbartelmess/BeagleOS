@@ -10,7 +10,13 @@ void kprintf(const char* str, const size_t length) {
 }
 
 char kgetc() {
-    while ((*UART_LSR & UART_LSR_RXFIFOE) == 0);
+    while ((*UART_LSR & UART_LSR_RXFIFOE) == 0) {
+        // Kick the watch dog a lot, otherwise we reboot;
+        // sticking the logic here for now until we have a
+        // kernel that can kick it between interrupts
+        HWREG(WDT_WTGR) = (HWREG(WDT_WTGR) + 1) % 4;
+    }
+
     const uint16_t car = *UART_RHR;
     return car;
 }
