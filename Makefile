@@ -18,7 +18,7 @@ CFLAGS  += -march=armv7-a -mtune=cortex-a8 -Og
 CFLAGS  += -ffreestanding -fwrapv -fno-short-enums
 CFLAGS  += -std=gnu11 -c -Isrc -I.
 CFLAGS  += -Wall -Wextra -Wshadow -Wcast-align -Wredundant-decls
-CFLAGS  += -Wno-div-by-zero -Wno-multichar -Wpadded
+CFLAGS  += -Wdiv-by-zero -Wno-multichar -Wpadded
 CFLAGS  += -Wswitch-enum -Wdisabled-optimization
 CFLAGS += -D __BUILD_NUM__=$(shell cat VERSION)
 
