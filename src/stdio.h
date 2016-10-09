@@ -1,6 +1,4 @@
-#ifndef __STDIO_H__
-#define __STDIO_H__
-
+#pragma once
 #include "std.h"
 
 /**
@@ -49,5 +47,3 @@ static inline char* sprintf_char(char* buffer, const char c) {
     *buffer = c;
     return ++buffer;
 }
-
-#endif

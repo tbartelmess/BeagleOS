@@ -1,5 +1,4 @@
-#ifndef __AM335X_H__
-#define __AM335X_H__
+#pragma once
 
 #include "std.h"
 
@@ -57,4 +56,3 @@ enum {
 
 #define WDT_WSPR (WDT + 18)
 
-#endif
