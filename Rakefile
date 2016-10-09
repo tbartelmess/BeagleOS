@@ -21,10 +21,10 @@ task build: [:increment_version] do
   cmds << "echo Building"
   cmds << "make"
   cmds << "echo Copying to TFTP Server"
-  cmds << "cp -v beagleOS.bin /srv/tftp/beagleOS.bin"
+  cmds << "cp -v beagleOS.bin /var/lib/tftpboot/beagleOS.bin"
 
   cmds = cmds.compact.join ' && '
 
-  sh "rsync -trulip --exclude '.git/' ./ pi:/home/mrada/beagleos"
-  sh "ssh mrada@ferrous-pi.local '#{cmds}'"
+  sh "rsync -trulip --exclude '.git/' ./ beagle:~/beagleos"
+  sh "ssh beagle '#{cmds}'"
 end
