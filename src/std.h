@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __STD_H__
+#define __STD_H__
 
 #define NULL 0
 

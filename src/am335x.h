@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __AM335X_H__
+#define __AM335X_H__
 
 #include "std.h"
 

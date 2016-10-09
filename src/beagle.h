@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __BEAGLE__
+#define __BEAGLE__
 
 const char* const ascii_beagle =
     "\r\n"
@@ -22,3 +23,5 @@ const char* const ascii_beagle =
     "       |____________________|\r\n"
     "       |                    |\r\n"
     "     _\\|_\\|_\\/(__\\__)\\__\\//_|(_\r\n";
+
+#endif
