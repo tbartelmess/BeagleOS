@@ -1,5 +1,4 @@
-#ifndef __VT100_H__
-#define __VT100_H__
+#pragma once
 
 #include "std.h"
 #include "stdio.h"
@@ -97,5 +96,3 @@ char* log_start(char* buffer, const int priority);
 char* log_end(char* buffer);
 void  ksyslog(const int priority, const char* fmt, ...)
     __attribute__ ((format(printf, 2, 3)));
-
-#endif
