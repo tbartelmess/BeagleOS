@@ -4,6 +4,7 @@
 #include "uart.h"
 #include "beagle.h"
 #include "am335x.h"
+#include "cpu.h"
 
 #ifndef __BUILD_NUM__
 #define __BUILD_NUM__ 0
@@ -40,10 +41,31 @@ int main(__unused int argc, __unused char** argv) {
     ptr = sprintf(ptr, ascii_beagle);
     kprintf(msg, ptr - msg);
 
-    FOREVER {
+    bool quit = false;
+    while (!quit) {
        const char input = kgetc();
-       if (input == 'q') break;
-       ksyslog(LOG_INFO, "%c", input);
+
+       switch (input) {
+       case 'q':
+	 quit = true;
+	 break;
+       case 't':
+	 debug_interrupt_vector_table();
+	 break;
+       case 'd':
+	 debug_cpsr();
+	 debug_spsr();
+	 break;
+       case 'i':
+	 asm volatile ("    mrs     r0, CPSR\n\t"
+		       "    bic     r0, r0, #0x0F\n\t"
+		       "    orr     r0, r0, #0x10\n\t"
+		       "    msr     CPSR_c, r0\n\t"
+		       "    swi     5");
+	 break;
+       default:
+	 ksyslog(LOG_INFO, "%c", input);
+       }
     }
 
     vt_deinit();
