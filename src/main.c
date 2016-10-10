@@ -5,6 +5,7 @@
 #include "beagle.h"
 #include "am335x.h"
 #include "cpu.h"
+#include "irq.h"
 
 #ifndef __BUILD_NUM__
 #define __BUILD_NUM__ 0
@@ -25,9 +26,11 @@ int main(__unused int argc, __unused char** argv) {
     /* asm volatile ("mov %0, sp\n\t" */
     /*     	  : "=r" (sp)); */
 
+
     clock_init();
     uart_init();
     vt_init();
+    irq_init();
 
     // TODO: move this init code elsewhere
     ksyslog(LOG_INFO,
@@ -68,6 +71,7 @@ int main(__unused int argc, __unused char** argv) {
        }
     }
 
+    irq_deinit();
     vt_deinit();
     uart_deinit();
     clock_deinit();

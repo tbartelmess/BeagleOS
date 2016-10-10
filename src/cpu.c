@@ -1,5 +1,6 @@
 #include "cpu.h"
 #include "vt100.h"
+#include "irq.h"
 
 #define CPU_MODE_MASK             0x0000001f
 
@@ -106,6 +107,7 @@ void debug_interrupt_vector_table() {
 	    base + 0x8,
 	    base + 0xC,
 	    base + 0x10,
+	    // NOTE: we skip 0x14 because it is apparently unused/reserved
 	    base + 0x18,
 	    base + 0x1C,
 	    base + 0x20,

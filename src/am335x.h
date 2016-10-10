@@ -57,3 +57,21 @@ enum {
 } WDT_WWPS_BITS;
 
 #define WDT_WSPR (WDT + 0x48)
+
+
+// Interrupt Controller
+
+#define AINTC 0xFFFEE000
+#define AINTC_ECR(x) (AINTC + (0x380 + (x * 4)))
+#define AINTC_SECR(x) (AINTC + (0x280 + (x * 4)))
+
+#define AINTC_ECR_DISABLE 0xFFFFFFFF
+#define AINTC_SECR_ENABLE_STATUS 0xFFFFFFFF
+
+#define AINTC_GER   (AINTC + 0x10)
+#define AINTC_VBR   (AINTC + 0x50)
+#define AINTC_VSR   (AINTC + 0x54)
+#define AINTC_HIER  (AINTC + 0x1500)
+
+#define AINTC_HIER_IRQ 0x2
+#define AINTC_HIER_FIQ 0x1
