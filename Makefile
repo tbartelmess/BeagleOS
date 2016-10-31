@@ -22,7 +22,7 @@ CFLAGS  += -Wdiv-by-zero -Wno-multichar -Wpadded
 CFLAGS  += -Wswitch-enum -Wdisabled-optimization
 CFLAGS += -D __BUILD_NUM__=$(shell cat VERSION)
 
-LDFLAGS += -T linker.ld -Map kernel.map
+LDFLAGS += -T linker.ld -Map kernel.map -N --warn-unresolved-symbols
 
 # object files
 
