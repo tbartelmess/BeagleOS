@@ -136,17 +136,18 @@ char* log_end(char* buffer) {
     return vt_save_cursor(buffer);
 }
 
+static char log_buffer[4096];
+
 void ksyslog(__unused const int priority, const char* fmt, ...) {
     va_list args;
     va_start(args, fmt);
 
-    char buffer[256];
-    char* ptr = buffer;
+    char* ptr = log_buffer;
 
     ptr = log_start(ptr, priority);
     ptr = sprintf_va(ptr, fmt, args);
     ptr = log_end(ptr);
 
-    kprintf(buffer, ptr - buffer);
+    kprintf(log_buffer, ptr - log_buffer);
     va_end(args);
 }
