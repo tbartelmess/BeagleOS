@@ -86,7 +86,7 @@ pmode processor_mode() {
 
 void debug_interrupt_vector_table() {
 
-    const unit32_t base = get_vectors_address();
+    const uint32_t base = vector_table;
 
     ksyslog(LOG_INFO,
 	    "Interrupt Table\r\n"
@@ -95,7 +95,7 @@ void debug_interrupt_vector_table() {
 	    "           Prefetch Abort: %x\n\r"
 	    "               Data Abort: %x\n\r"
 	    "                      IRQ: %x\n\r"
-	    "                      FIQ: %x\n\n"
+	    "                      FIQ: %x\n\n\r"
 	    "Default Interrupt Address:\r\n"
 	    "    Undefined Instruction: %x\n\r"
 	    "       Software Interrupt: %x\n\r"

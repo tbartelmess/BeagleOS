@@ -10,22 +10,10 @@ static void (*isr_map[NUM_INTERRUPTS])(void);
 
 // NOTE: we should probably print the result of this out once so that we
 //       do not have to look it up at runtime at each boot
-uint32_t get_vectors_address() {
-    uint32_t v;
 
-    /* read SCTLR */
-    __asm__ __volatile__("mrc p15, 0, %0, c1, c0, 0\n"
-			 : "=r" (v) : : );
-    if (v & (1<<13))
-        return (uint32_t)0xffff0000;
+const uint32_t vector_table = 0x9F74E000;
 
-    /* read VBAR */
-    __asm__ __volatile__("mrc p15, 0, %0, c12, c0, 0\n"
-			 : "=r" (v) : : );
-    return (uint32_t)v;
-}
-
-void syscall_handle(__unused const int32_t code,
+void syscall_handle(const int32_t code,
                     __unused const void* const req,
                     int* const sp) {
 
@@ -69,8 +57,7 @@ void irq_init() {
 
   HWREG(AINTC_VSR) = 0;
 
-  uint32_t const interrupt_vector = get_vectors_address();
-  HWREG(interrupt_vector + 0x8) = (0xea000000 | (((uint32_t)swi_enter >> 2) - 4));
+  HWREG(vector_table + 0x24) = (uint32_t)swi_enter;
 }
 
 void irq_deinit() {
