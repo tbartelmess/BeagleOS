@@ -11,7 +11,7 @@ AS      = $(PREFIX)/bin/arm-none-eabi-as
 LD      = $(PREFIX)/bin/arm-none-eabi-ld
 OBJCOPY = $(PREFIX)/bin/arm-none-eabi-objcopy
 
-ASFLAGS += -mapcs-32
+ASFLAGS += -mapcs-32 -march=armv7-a
 
 CFLAGS  += -march=armv7-a -mtune=cortex-a8 -Og
 
