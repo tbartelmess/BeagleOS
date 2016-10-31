@@ -17,29 +17,29 @@ void syscall_handle(const int32_t code,
                     __unused const void* const req,
                     int* const sp) {
 
-  //  ksyslog(LOG_INFO, "code = %d\t\tsp = %p", code, sp);
-  //  ksyslog(LOG_INFO, "GO TO HYPERSPACE, CHEWIE!");
+  ksyslog(LOG_INFO, "Got system call #%d", code);
+  //  ksyslog(LOG_INFO, "GO TO HYPERSPACE, CHEWIE! %d", *(int32_t*)req);
 
-   asm volatile ("mov    r0, %0                                \n"
-		 "msr	  cpsr, #0xDF             /* System */  \n"
-		 "mov	  sp, r0                                \n"
-		 "ldmfd  sp!, {r0-r11, lr}                     \n"
-		 "msr    cpsr, #0xD3		/* Supervisor */\n"
+  asm volatile ("mov    r0, %0                                \n"
+		"msr	  cpsr, #0xDF            /* System */ \n"
+		"mov	  sp, r0                              \n"
+		"ldmfd  sp!, {r0-r11, lr}                     \n"
+		"msr    cpsr, #0xD3           /* Supervisor */\n"
 
-		 "msr    spsr, r3                              \n"
-		 "cmp    r2, #0                                \n"
-		 "movnes pc, r2                                \n"
+		"msr    spsr, r3                              \n"
+		"cmp    r2, #0                                \n"
+		"movnes pc, r2                                \n"
 
-		 "msr    cpsr, #0xDF            /* System */   \n"
-		 "mov    r0, sp                                \n"
-		 "add    sp, sp, #20                           \n"
-		 "msr    cpsr, #0xD3           /* Supervisor */\n"
+		"msr    cpsr, #0xDF            /* System */   \n"
+		"mov    r0, sp                                \n"
+		"add    sp, sp, #20                           \n"
+		"msr    cpsr, #0xD3           /* Supervisor */\n"
 
-		 "/* ^ acts like movs when pc is in list */    \n"
-		 "ldmfd  r0, {r0,r2,r3,r12,pc}^                \n"
-		 :
-		 : "r" (sp)
-		 : "r0");
+		"/* ^ acts like movs when pc is in list */    \n"
+		"ldmfd  r0, {r0,r2,r3,r12,pc}^                \n"
+		:
+		: "r" (sp)
+		: "r0");
 }
 
 void irq_init() {

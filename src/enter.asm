@@ -26,10 +26,12 @@ swi_enter:
 	mrs	r3, spsr
 
 	msr	cpsr, #0xDF         /* system */
-	stmfd	sp!, {r0-r11, lr}	/* Store user state on the users stack */
-	mov	r2, sp			        /* kernel needs the sp to find data again */
-	msr	cpsr, #0xD3         /* supervisor */
+	stmfd	sp!, {r0-r11, lr}   /* Store user state on the users stack */
 
-	mov     sp, #0x300000
+	mov	r2, sp	            /* kernel needs the sp to find data again */
+
+	msr	cpsr, #0xD3         /* supervisor */
+	movw    sp, #0x8000
+	movt    sp, #0x8000
 	b	syscall_handle
 	.size	swi_enter, .-swi_enter

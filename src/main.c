@@ -64,7 +64,10 @@ int main(__unused int argc, __unused char** argv) {
 		       "    bic     r0, r0, #0x0F\n\t"
 		       "    orr     r0, r0, #0x10\n\t"
 		       "    msr     CPSR_c, r0\n\t"
-		       "    swi     5");
+		       "    mov     r0, %0\n\t"
+		       "    svc     0"
+		       :
+		       : "r" (9));
 	 break;
        default:
 	 ksyslog(LOG_INFO, "%c", input);
