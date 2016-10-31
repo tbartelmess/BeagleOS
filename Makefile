@@ -13,9 +13,9 @@ OBJCOPY = $(PREFIX)/bin/arm-none-eabi-objcopy
 
 ASFLAGS += -mapcs-32 -march=armv7-a
 
-CFLAGS  += -march=armv7-a -mtune=cortex-a8 -Og
+CFLAGS  += -march=armv7-a -mtune=cortex-a8 -O2
 
-CFLAGS  += -ffreestanding -fwrapv -fno-short-enums
+CFLAGS  += -ffreestanding -fwrapv -fno-short-enums -fverbose-asm -fomit-frame-pointer
 CFLAGS  += -std=gnu11 -c -Isrc -I.
 CFLAGS  += -Wall -Wextra -Wshadow -Wcast-align -Wredundant-decls
 CFLAGS  += -Wdiv-by-zero -Wno-multichar -Wpadded
