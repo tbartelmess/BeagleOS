@@ -19,7 +19,7 @@ task build: [:increment_version] do
   cmds << "make clean"
   cmds << "touch Makefile"
   cmds << "echo Building"
-  cmds << "make"
+  cmds << "make -j"
   cmds << "echo Copying to TFTP Server"
   cmds << "cp -v beagleOS.bin /var/lib/tftpboot/beagleOS.bin"
 
