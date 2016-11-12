@@ -2,12 +2,12 @@
 #include "vt100.h"
 #include "clock.h"
 #include "uart.h"
-#include "beagle.h"
 #include "am335x.h"
 #include "cpu.h"
 #include "irq.h"
 #include "help.h"
 #include "version.h"
+#include "bgsh.h"
 
 
 /* static void* exit_point = NULL; */
@@ -28,20 +28,7 @@ int main(__unused int argc, __unused char** argv) {
 
     clock_init();
     uart_init();
-    vt_init();
     irq_init();
-
-    // TODO: move this init code elsewhere
-    ksyslog(LOG_INFO,
-            "Welcome to " COLOUR(RED) "BeagleOS" COLOUR_RESET " "
-            "(Build " COLOUR(GREEN) "%d" COLOUR_RESET ")",
-            __BUILD_NUM__);
-
-    char msg[1024];
-    char* ptr = msg;
-    ptr = vt_goto_home(ptr);
-    ptr = sprintf(ptr, ascii_beagle);
-    kprintf(msg, ptr - msg);
 
     // go to user land/mode
     asm volatile ("    mrs     r0, CPSR\n\t"
@@ -49,34 +36,8 @@ int main(__unused int argc, __unused char** argv) {
 		  "    orr     r0, r0, #0x10\n\t"
 		  "    msr     CPSR_c, r0\n\t");
 
-    bool quit = false;
-    while (!quit) {
-        const char input = kgetc();
-
-        switch (input) {
-        case 'h':
-            print_help();
-            break;
-        case 'q':
-            quit = true;
-            break;
-        case 't':
-            debug_interrupt_vector_table();
-            break;
-        case 'd':
-            debug_cpsr();
-            debug_spsr();
-            break;
-        case 'i':
-            asm volatile ("    mov     r0, %0\n\t"
-                          "    svc     0"
-                          :
-                          : "r" (9));
-            break;
-        default:
-            ksyslog(LOG_INFO, "%c", input);
-        }
-    }
+    // Drop into the beagle shell
+    bgsh_main();
 
     irq_deinit();
     vt_deinit();
