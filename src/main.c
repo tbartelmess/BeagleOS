@@ -6,6 +6,7 @@
 #include "am335x.h"
 #include "cpu.h"
 #include "irq.h"
+#include "help.h"
 
 #ifndef __BUILD_NUM__
 #define __BUILD_NUM__ 0
@@ -55,6 +56,9 @@ int main(__unused int argc, __unused char** argv) {
         const char input = kgetc();
 
         switch (input) {
+        case 'h':
+            print_help();
+            break;
         case 'q':
             quit = true;
             break;
