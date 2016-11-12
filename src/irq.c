@@ -17,49 +17,49 @@ void syscall_handle(const int32_t code,
                     __unused const void* const req,
                     int* const sp) {
 
-  ksyslog(LOG_INFO, "Got system call #%d", code);
-  //  ksyslog(LOG_INFO, "GO TO HYPERSPACE, CHEWIE! %d", *(int32_t*)req);
+    ksyslog(LOG_INFO, "Got system call #%d", code);
+    //  ksyslog(LOG_INFO, "GO TO HYPERSPACE, CHEWIE! %d", *(int32_t*)req);
 
-  asm volatile ("mov    r0, %0                                \n"
-		"msr	  cpsr, #0xDF            /* System */ \n"
-		"mov	  sp, r0                              \n"
-		"ldmfd  sp!, {r0-r11, lr}                     \n"
-		"msr    cpsr, #0xD3           /* Supervisor */\n"
+    asm volatile ("mov    r0, %0                                \n"
+                  "msr	  cpsr, #0xDF            /* System */ \n"
+                  "mov	  sp, r0                              \n"
+                  "ldmfd  sp!, {r0-r11, lr}                     \n"
+                  "msr    cpsr, #0xD3           /* Supervisor */\n"
 
-		"msr    spsr, r3                              \n"
-		"cmp    r2, #0                                \n"
-		"movnes pc, r2                                \n"
+                  "msr    spsr, r3                              \n"
+                  "cmp    r2, #0                                \n"
+                  "movnes pc, r2                                \n"
 
-		"msr    cpsr, #0xDF            /* System */   \n"
-		"mov    r0, sp                                \n"
-		"add    sp, sp, #20                           \n"
-		"msr    cpsr, #0xD3           /* Supervisor */\n"
+                  "msr    cpsr, #0xDF            /* System */   \n"
+                  "mov    r0, sp                                \n"
+                  "add    sp, sp, #20                           \n"
+                  "msr    cpsr, #0xD3           /* Supervisor */\n"
 
-		"/* ^ acts like movs when pc is in list */    \n"
-		"ldmfd  r0, {r0,r2,r3,r12,pc}^                \n"
-		:
-		: "r" (sp)
-		: "r0");
+                  "/* ^ acts like movs when pc is in list */    \n"
+                  "ldmfd  r0, {r0,r2,r3,r12,pc}^                \n"
+                  :
+                  : "r" (sp)
+                  : "r0");
 }
 
 void irq_init() {
 
-  for (uint32_t i = 0; i < 3; i++) {
-    HWREG(AINTC_ECR(i)) = AINTC_ECR_DISABLE;
-    HWREG(AINTC_SECR(i)) = AINTC_SECR_ENABLE_STATUS;
-  }
+    for (uint32_t i = 0; i < 3; i++) {
+        HWREG(AINTC_ECR(i)) = AINTC_ECR_DISABLE;
+        HWREG(AINTC_SECR(i)) = AINTC_SECR_ENABLE_STATUS;
+    }
 
-  HWREG(AINTC_HIER) &= ~(AINTC_HIER_IRQ | AINTC_HIER_FIQ);
+    HWREG(AINTC_HIER) &= ~(AINTC_HIER_IRQ | AINTC_HIER_FIQ);
 
-  HWREG(AINTC_GER) = 0;
+    HWREG(AINTC_GER) = 0;
 
-  HWREG(AINTC_VBR) = (uint32_t)isr_map;
+    HWREG(AINTC_VBR) = (uint32_t)isr_map;
 
-  HWREG(AINTC_VSR) = 0;
+    HWREG(AINTC_VSR) = 0;
 
-  HWREG(vector_table + 0x24) = (uint32_t)swi_enter;
+    HWREG(vector_table + 0x24) = (uint32_t)swi_enter;
 }
 
 void irq_deinit() {
-  // TODO: probably should reset things again
+    // TODO: probably should reset things again
 }

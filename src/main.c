@@ -52,28 +52,28 @@ int main(__unused int argc, __unused char** argv) {
 
     bool quit = false;
     while (!quit) {
-       const char input = kgetc();
+        const char input = kgetc();
 
-       switch (input) {
-       case 'q':
-	 quit = true;
-	 break;
-       case 't':
-	 debug_interrupt_vector_table();
-	 break;
-       case 'd':
-	 debug_cpsr();
-	 debug_spsr();
-	 break;
-       case 'i':
-	 asm volatile ("    mov     r0, %0\n\t"
-		       "    svc     0"
-		       :
-		       : "r" (9));
-	 break;
-       default:
-	 ksyslog(LOG_INFO, "%c", input);
-       }
+        switch (input) {
+        case 'q':
+            quit = true;
+            break;
+        case 't':
+            debug_interrupt_vector_table();
+            break;
+        case 'd':
+            debug_cpsr();
+            debug_spsr();
+            break;
+        case 'i':
+            asm volatile ("    mov     r0, %0\n\t"
+                          "    svc     0"
+                          :
+                          : "r" (9));
+            break;
+        default:
+            ksyslog(LOG_INFO, "%c", input);
+        }
     }
 
     irq_deinit();

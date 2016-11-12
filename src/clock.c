@@ -15,10 +15,10 @@ clock_init() {
     HWREG(DMTIMER_TCRR) = 544967295; // reset to 1 million ticks
 
     for (volatile size_t i = 0; i < 2; ++i)
-        HWREG(DMTIMER_TCLR) = DMTIMER_TCLR_ST  |
-	                      DMTIMER_TCLR_AR  |
-	                      DMTIMER_TCLR_PRE |
-	                      DMTIMER_TCLR_PTV1;
+        HWREG(DMTIMER_TCLR) = (DMTIMER_TCLR_ST  |
+                               DMTIMER_TCLR_AR  |
+                               DMTIMER_TCLR_PRE |
+                               DMTIMER_TCLR_PTV1);
 }
 
 void
