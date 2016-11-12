@@ -7,10 +7,8 @@
 #include "cpu.h"
 #include "irq.h"
 #include "help.h"
+#include "version.h"
 
-#ifndef __BUILD_NUM__
-#define __BUILD_NUM__ 0
-#endif
 
 /* static void* exit_point = NULL; */
 /* static void* exit_sp    = NULL; */
