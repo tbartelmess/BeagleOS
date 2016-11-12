@@ -44,6 +44,12 @@ int main(__unused int argc, __unused char** argv) {
     ptr = sprintf(ptr, ascii_beagle);
     kprintf(msg, ptr - msg);
 
+    // go to user land/mode
+    asm volatile ("    mrs     r0, CPSR\n\t"
+		  "    bic     r0, r0, #0x0F\n\t"
+		  "    orr     r0, r0, #0x10\n\t"
+		  "    msr     CPSR_c, r0\n\t");
+
     bool quit = false;
     while (!quit) {
        const char input = kgetc();
@@ -60,11 +66,7 @@ int main(__unused int argc, __unused char** argv) {
 	 debug_spsr();
 	 break;
        case 'i':
-	 asm volatile ("    mrs     r0, CPSR\n\t"
-		       "    bic     r0, r0, #0x0F\n\t"
-		       "    orr     r0, r0, #0x10\n\t"
-		       "    msr     CPSR_c, r0\n\t"
-		       "    mov     r0, %0\n\t"
+	 asm volatile ("    mov     r0, %0\n\t"
 		       "    svc     0"
 		       :
 		       : "r" (9));
