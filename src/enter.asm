@@ -26,7 +26,7 @@ swi_enter:
 	mrs	r3, spsr
 
 	msr	cpsr, #0xDF         /* system */
-	stmfd	sp!, {r0-r11, lr}   /* Store user state on the users stack */
+	stmfd	sp!, {r2-r11, lr}   /* Store user state on the users stack */
 
 	mov	r2, sp	            /* kernel needs the sp to find data again */
 

@@ -23,7 +23,7 @@ void syscall_handle(const int32_t code,
     asm volatile ("mov    r0, %0                                \n"
                   "msr	  cpsr, #0xDF            /* System */ \n"
                   "mov	  sp, r0                              \n"
-                  "ldmfd  sp!, {r0-r11, lr}                     \n"
+                  "ldmfd  sp!, {r2-r11, lr}                     \n"
                   "msr    cpsr, #0xD3           /* Supervisor */\n"
 
                   "msr    spsr, r3                              \n"
