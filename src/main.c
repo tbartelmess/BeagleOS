@@ -6,6 +6,7 @@
 #include "am335x.h"
 #include "cpu.h"
 #include "irq.h"
+#include "syscall.h"
 #include "help.h"
 
 #ifndef __BUILD_NUM__
@@ -56,11 +57,11 @@ int main(__unused int argc, __unused char** argv) {
         const char input = kgetc();
 
         switch (input) {
-        case 'h':
-            print_help();
-            break;
         case 'q':
             quit = true;
+            break;
+        case 'h':
+            print_help();
             break;
         case 't':
             debug_interrupt_vector_table();
@@ -69,11 +70,11 @@ int main(__unused int argc, __unused char** argv) {
             debug_cpsr();
             debug_spsr();
             break;
-        case 'i':
-            asm volatile ("    mov     r0, %0\n\t"
-                          "    svc     0"
-                          :
-                          : "r" (9));
+        case 'p':
+            pass();
+            break;
+        case 'r':
+            reboot();
             break;
         default:
             ksyslog(LOG_INFO, "%c", input);

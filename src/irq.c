@@ -14,11 +14,20 @@ static void (*isr_map[NUM_INTERRUPTS])(void);
 const uint32_t vector_table = 0x9F74E000;
 
 void syscall_handle(const int32_t code,
-                    __unused const void* const req,
+                    void* const req,
                     int* const sp) {
 
-    ksyslog(LOG_INFO, "Got system call #%d", code);
-    //  ksyslog(LOG_INFO, "GO TO HYPERSPACE, CHEWIE! %d", *(int32_t*)req);
+    switch (code) {
+    case 4:
+        ksyslog(LOG_ALERT, "REBOOTING!!!!!!!!");
+        return;
+    default:
+        ksyslog(LOG_INFO,
+                "GO TO HYPERSPACE, CHEWIE! Call %d with req %p",
+                code,
+                req);
+        break;
+    };
 
     asm volatile ("mov    r0, %0                                \n"
                   "msr	  cpsr, #0xDF            /* System */ \n"

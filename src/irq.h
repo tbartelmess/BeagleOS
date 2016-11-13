@@ -6,5 +6,5 @@ void irq_deinit(void);
 extern const uint32_t vector_table;
 
 void syscall_handle(const int32_t code,
-                    __unused const void* const req,
+                    void* const req,
                     int* const sp);
